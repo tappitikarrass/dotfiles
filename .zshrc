@@ -2,7 +2,7 @@ autoload -Uz colors && colors
 autoload -Uz promptinit && promptinit
 
 # completion
-autoload -Uz compinit && compinit
+autoload -Uz compinit && compinit -d ~/.cache/zsh/zcompdump-$ZSH_VERSION
 zstyle ':completion:*' menu select
 zmodload zsh/complist
 
