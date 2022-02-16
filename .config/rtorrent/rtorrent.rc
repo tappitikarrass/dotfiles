@@ -1,0 +1,2 @@
+directory.default.set = /mnt/data/files/downloads/rtorrent
+session.path.set = /mnt/data/files/downloads/rtorrent/session
