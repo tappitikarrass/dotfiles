@@ -1,0 +1,24 @@
+export EDITOR="nvim"
+export TERMINAL="kitty"
+export FM="nnn"
+export PYENV_ROOT="$HOME/.pyenv"
+export KEYTIMEOUT=1
+# pager
+export PAGER="nvimpager"
+export MANPAGER='nvim +Man!'
+export GIT_PAGER="nvimpager"
+# ibus
+export GTK_IM_MODULE=ibus
+export GLFW_IM_MODULE=ibus
+# XDG
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export SCRIPTS_HOME="$HOME/.local/scripts"
+# mozilla
+export MOZ_USE_XINPUT2=1
+export MOZ_ENABLE_WAYLAND=1
+# qt
+export QT_QPA_PLATFORMTHEME=gtk3
+export QT_STYLE_OVERRIDE=kvantum
+# java
+export _JAVA_AWT_WM_NONREPARENTING=1
