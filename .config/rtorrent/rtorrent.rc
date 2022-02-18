@@ -1,2 +1,2 @@
-directory.default.set = /mnt/data/files/downloads/rtorrent
-session.path.set = /mnt/data/files/downloads/rtorrent/session
+directory.default.set = ~/files/downloads/rtorrent
+session.path.set = ~/files/downloads/rtorrent/session
