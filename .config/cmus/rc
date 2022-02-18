@@ -1,0 +1,38 @@
+set output_plugin=pulse
+set mpris=true
+set mouse=true
+add ~/files/music
+
+set show_current_bitrate=true
+set start_view=tree
+set time_show_leading_zero=false
+set tree_width_percent=20
+set show_playback_position=true
+
+set format_current= %n. %t %= %a - %y - %l
+set format_statusline= %{status} %{?show_playback_position?%{position} %{?duration?/ %{duration} }?%{?duration?%{duration} }}- %{total} %{?bpm>0?at %{bpm} BPM }%{?volume>=0?vol: %{?lvolume!=rvolume?%{lvolume},%{rvolume} ?%{volume} }}%{?stream?buf: %{buffer} }%{?show_current_bitrate & bitrate>=0? %{bitrate} kbps }%=%{?repeat_current?repeat current?%{?play_library?%{playlist_mode} from %{?play_sorted?sorted }library?playlist}} | %1{continue}%1{follow}%1{repeat}%1{shuffle} 
+
+# colorscheme
+set color_cmdline_bg=0
+set color_cmdline_fg=7
+set color_error=1
+set color_info=3
+set color_separator=7
+set color_statusline_bg=0
+set color_statusline_fg=7
+set color_titleline_bg=7
+set color_titleline_fg=0
+set color_win_bg=default
+set color_win_cur=4
+set color_win_cur_sel_bg=4
+set color_win_cur_sel_fg=0
+set color_win_dir=0
+set color_win_fg=7
+set color_win_inactive_cur_sel_bg=7
+set color_win_inactive_cur_sel_fg=0
+set color_win_inactive_sel_bg=7
+set color_win_inactive_sel_fg=0
+set color_win_sel_bg=4
+set color_win_sel_fg=0
+set color_win_title_bg=7
+set color_win_title_fg=0
