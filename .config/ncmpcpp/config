@@ -13,7 +13,6 @@ clock_display_seconds   = yes
 ignore_leading_the      = yes
 mouse_support           = yes
 use_console_editor      = yes
-color_enabled           = yes
 
 show_hidden_files_in_local_browser = yes
 generate_win32_compatible_filenames = yes

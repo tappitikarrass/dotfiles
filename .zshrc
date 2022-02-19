@@ -33,6 +33,7 @@ alias "vim"="nvim"
 alias "ls"="ls -lav --color=always"
 alias "youtube-dl-auto"="youtube-dl -f bestvideo+bestaudio"
 alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
+alias yarn='yarn --use-yarnrc "$XDG_CONFIG_HOME/yarn/config"'
 
 # plugins
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

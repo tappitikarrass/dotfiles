@@ -15,7 +15,14 @@ export QT_IM_MODULE=ibus
 # XDG
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
 export SCRIPTS_HOME="$HOME/.local/scripts"
+export XDG_STATE_HOME="$HOME/.local/state"
+export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME"/npm/npmrc
+export NODE_REPL_HISTORY="$XDG_CACHE_HOME/"node_repl_history
+export GTK2_RC_FILES="$XDG_CONFIG_HOME"/gtk-2.0/gtkrc
+export SSB_HOME="$XDG_DATA_HOME"/zoom
+export CARGO_HOME="$XDG_DATA_HOME"/cargo
 # mozilla
 export MOZ_USE_XINPUT2=1
 export MOZ_ENABLE_WAYLAND=1
