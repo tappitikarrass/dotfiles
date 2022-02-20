@@ -44,6 +44,10 @@ require("packer").startup(function(use)
     use 'kyazdani42/nvim-tree.lua'
     -- Discord
     use 'andweeb/presence.nvim'
+    -- Markdown
+    use 'ellisonleao/glow.nvim'
+    use {'iamcco/markdown-preview.nvim', run = ':call mkdp#util#install()'}
+    use 'dhruvasagar/vim-table-mode'
 
     if Packer_bootstrap then require("packer").sync() end
 end)
@@ -57,3 +61,5 @@ require("nvim-gps").setup()
 require("luasnip.loaders.from_vscode").load()
 require("numb").setup()
 require("stabilize").setup()
+
+vim.g.mkdp_auto_close = 0
