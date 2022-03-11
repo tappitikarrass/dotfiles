@@ -51,22 +51,15 @@ modkey = "Mod1"
 -- }}}
 
 -- {{{ Menu
--- Create a launcher widget and a main menu
-myawesomemenu = {
-   { "hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
-   { "restart", awesome.restart },
-   { "quit", function() awesome.quit() end },
-}
+-- Create a main menu
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open terminal", terminal }
-                                  }
+mymainmenu = awful.menu({ items = {
+                                    { "terminal", terminal },
+                                    { "config", editor_cmd .. " " .. awesome.conffile },
+                                    { "restart", awesome.restart },
+                                    { "quit", function() awesome.quit() end },
+                                }
                         })
-
-mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
-                                     menu = mymainmenu })
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
@@ -107,12 +100,6 @@ end)
 -- }}}
 
 -- {{{ Wibar
-
--- Keyboard map indicator and switcher
-mykeyboardlayout = awful.widget.keyboardlayout()
-
--- Create a textclock widget
-mytextclock = wibox.widget.textclock()
 
 screen.connect_signal("request::desktop_decoration", function(s)
     -- Each screen has its own tag table.
@@ -157,31 +144,32 @@ screen.connect_signal("request::desktop_decoration", function(s)
 
     -- PulseAudio volume (based on multicolor theme)
     local lain = require("lain")
-    local pa_volume = lain.widget.pulse {
+    volume = lain.widget.pulse {
+        timeout = 1,
         settings = function()
             local volume_str = volume_now.right .. "%"
+            local volume_icon = " "
             local color_str = "#f8f8f8"
             if volume_now.muted == "yes" then
-                volume_str = "Muted"
-                color_str = "#ab4642"
+                volume_icon = " "
             end
-            widget:set_markup(lain.util.markup(color_str, volume_str))
+            widget:set_markup(lain.util.markup(color_str, volume_icon .. volume_str))
         end
     }
-
-    -- load the widget code
-    -- local media_player = require("awesomewm-mediaplayer-widget")
-    --
-    -- -- be free to configure your media player widget:
-    -- local spotify_widget = media_player({
-    --     icons  = {
-    --         play   = theme.play,
-    --         pause  = theme.pause
-    --     },
-    --     font         = theme.font,
-    --     name         = "spotify", -- target media player
-    --     refresh_rate = 0.3 -- interval between widget update calls
-    -- }).widget
+    local battery = lain.widget.bat {
+        battery = "BAT0",
+        notify = "off",
+        settings = function()
+            local battery_str = " " .. bat_now.perc .. "%"
+            local color_str = "#f8f8f8"
+            widget:set_markup(lain.util.markup(color_str, battery_str))
+        end
+    }
+    local clock = wibox.widget {
+        refresh = 1,
+        format = '%A %d %B %R:%S',
+        widget = wibox.widget.textclock
+    }
 
     -- Create the wibox
     s.mywibox = awful.wibar {
@@ -211,8 +199,9 @@ screen.connect_signal("request::desktop_decoration", function(s)
                     bottom = 3,
                     wibox.widget.systray(),
                 },
-                pa_volume,
-                mytextclock,
+                battery,
+                volume,
+                clock,
             },
         }
     }
@@ -255,6 +244,32 @@ awful.keyboard.append_global_keybindings({
               {description = "run prompt", group = "launcher"}),
     awful.key({ modkey }, "p", function() menubar.show() end,
               {description = "show the menubar", group = "launcher"}),
+})
+
+-- Volume and media related keybindings
+awful.keyboard.append_global_keybindings({
+    awful.key({}, "XF86AudioLowerVolume",
+        function ()
+            os.execute(string.format("pactl set-sink-volume %s -1%%", volume.device))
+            volume.update()
+        end),
+    awful.key({}, "XF86AudioRaiseVolume",
+        function ()
+            os.execute(string.format("pactl set-sink-volume %s +1%%", volume.device))
+            volume.update()
+        end),
+    awful.key({}, "XF86AudioMute",
+        function ()
+            os.execute(string.format("pactl set-sink-mute %s toggle", volume.device))
+            volume.update()
+        end),
+    awful.key({}, "XF86AudioPlay", function()
+        awful.util.spawn("playerctl play-pause", false)
+    end),
+    awful.key({}, "XF86AudioNext", function()
+        awful.util.spawn("playerctl next", false) end),
+    awful.key({}, "XF86AudioPrev", function()
+        awful.util.spawn("playerctl previous", false) end),
 })
 
 -- Tags related keybindings

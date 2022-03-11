@@ -25,8 +25,7 @@ $(xrandr -q | grep -q "VGA1 connected") && twoscr || onescr
 # autostart
 ibus-daemon -drxR
 playerctld daemon &
-pkill picom ; picom --experimental-backends &
-pkill premid ; premid &
+picom --experimental-backends &
 hsetroot -cover ~/.local/share/wallpaper/normal.png
 
 awesome
