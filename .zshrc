@@ -22,8 +22,10 @@ prompt zen
 # $PATH
 typeset -U PATH path
 path=("$HOME/.local/scripts"
+    "$XDG_DATA_HOME/npm/bin"
     "$PYENV_ROOT/bin"
     "$path[@]"
+    "$HOME/go/bin"
 )
 export PATH
 
