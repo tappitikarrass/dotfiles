@@ -13,6 +13,15 @@ vim.cmd([[
   augroup end
 ]])
 
+vim.cmd([[
+let g:nvim_tree_show_icons = {
+    \ 'git': 0,
+    \ 'folders': 0,
+    \ 'files': 0,
+    \ 'folder_arrows': 0,
+    \ }
+]])
+
 -- Packer plugins
 require("packer").startup(function(use)
     use 'wbthomason/packer.nvim'
