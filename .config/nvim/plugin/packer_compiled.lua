@@ -119,11 +119,6 @@ _G.packer_plugins = {
     path = "/home/matahari/.local/share/nvim/site/pack/packer/start/filetype.nvim",
     url = "https://github.com/nathom/filetype.nvim"
   },
-  firenvim = {
-    loaded = true,
-    path = "/home/matahari/.local/share/nvim/site/pack/packer/start/firenvim",
-    url = "https://github.com/glacambre/firenvim"
-  },
   ["friendly-snippets"] = {
     loaded = true,
     path = "/home/matahari/.local/share/nvim/site/pack/packer/start/friendly-snippets",
@@ -138,6 +133,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/matahari/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim",
     url = "https://github.com/lukas-reineke/indent-blankline.nvim"
+  },
+  ["lspkind.nvim"] = {
+    loaded = true,
+    path = "/home/matahari/.local/share/nvim/site/pack/packer/start/lspkind.nvim",
+    url = "https://github.com/onsails/lspkind.nvim"
   },
   ["lualine.nvim"] = {
     loaded = true,
