@@ -3,6 +3,8 @@ set mpris=true
 set mouse=true
 add ~/files/music
 
+set status_display_program=/home/matahari/.local/scripts/cmus-update.sh
+
 set show_current_bitrate=true
 set start_view=tree
 set time_show_leading_zero=false
