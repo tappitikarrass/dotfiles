@@ -1,62 +1,30 @@
 local cmp = require 'cmp'
-local kind_icons = {
-    Text = "",
-    Method = "",
-    Function = "",
-    Constructor = "",
-    Field = "",
-    Variable = "",
-    Class = "ﴯ",
-    Interface = "",
-    Module = "",
-    Property = "ﰠ",
-    Unit = "",
-    Value = "",
-    Enum = "",
-    Keyword = "",
-    Snippet = "",
-    Color = "",
-    File = "", Reference = "", Folder = "",
-    EnumMember = "",
-    Constant = "",
-    Struct = "",
-    Event = "",
-    Operator = "",
-    TypeParameter = ""
-}
-
+local lspkind = require('lspkind')
 cmp.setup({
     formatting = {
-    format = function(entry, vim_item)
-        -- Kind icons
-        -- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
-        -- Source
-        vim_item.menu = ({
-            buffer = "[Buffer]",
-            nvim_lsp = "[LSP]",
-            luasnip = "[LuaSnip]",
-            nvim_lua = "[Lua]",
-            latex_symbols = "[LaTeX]",
-        })[entry.source.name]
-        return vim_item
-    end
-  },
+        format = lspkind.cmp_format({
+            mode = 'symbol_text',
+            maxwidth = 50,
+
+            -- The function below will be called before any actual modifications from lspkind
+            -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
+            before = function (entry, vim_item)
+            return vim_item
+          end
+        })
+      },
     snippet = {
-        -- REQUIRED - you must specify a snippet engine
         expand = function(args)
-            -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-            require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-            -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-            -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+            require('luasnip').lsp_expand(args.body)
         end
     },
     mapping = {
-        ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), {'i', 'c'}),
-        ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), {'i', 'c'}),
-        ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), {'i', 'c'}),
-        ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-        ['<C-e>'] = cmp.mapping({i = cmp.mapping.abort(), c = cmp.mapping.close()}),
-        ['<CR>'] = cmp.mapping.confirm({select = true}) -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        ['<C-b>']       = cmp.mapping(cmp.mapping.scroll_docs(-4), {'i', 'c'}),
+        ['<C-f>']       = cmp.mapping(cmp.mapping.scroll_docs(4), {'i', 'c'}),
+        ['<C-Space>']   = cmp.mapping(cmp.mapping.complete(), {'i', 'c'}),
+        ['<C-y>']       = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+        ['<C-e>']       = cmp.mapping({i = cmp.mapping.abort(), c = cmp.mapping.close()}),
+        ['<CR>']        = cmp.mapping.confirm({select = true}) -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     },
     sources = cmp.config.sources({{name = 'nvim_lsp'}, {name = 'luasnip'}, {name = 'nvim_lua'}, {name = 'path'}},
     {
@@ -84,45 +52,8 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 require('lspconfig')['pyright'].setup {capabilities = capabilities}
 require('lspconfig')['clangd'].setup {capabilities = capabilities}
 require('lspconfig')['bashls'].setup {capabilities = capabilities}
--- HTML
-require('lspconfig')['html'].setup {capabilities = capabilities}
-require('lspconfig')['emmet_ls'].setup {capabilities = capabilities}
-require('lspconfig')['dockerls'].setup {capabilities = capabilities}
 require('lspconfig')['jsonls'].setup {capabilities = capabilities}
-require('lspconfig')['yamlls'].setup {
-    settings = {
-        yaml = {
-            schemas = {
-                ["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json"] = "/*/swagger.yml",
-                ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "/*/docker-compose.yml",
-                -- [""] = "/*",
-            },
-        },
-    }
-}
--- CSS
-require('lspconfig')['cssls'].setup {capabilities = capabilities}
--- C#
-local pid = vim.fn.getpid()
-local omnisharp_bin = "/usr/bin/omnisharp"
-require('lspconfig')['omnisharp'].setup {
-    capabilities = capabilities,
-    cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid)}
-}
--- Lua
+
+require('web')
+require('csharp')
 require('sumneko_lua')
-require('lspconfig').efm.setup {
-    init_options = {documentFormatting = true},
-    filetypes = {"lua"},
-    settings = {
-        rootMarkers = {".git/"},
-        languages = {
-            lua = {
-                {
-                    formatCommand = "lua-format -i --no-keep-simple-function-one-line --no-break-after-operator --column-limit=150 --break-after-table-lb",
-                    formatStdin = true
-                }
-            }
-        }
-    }
-}

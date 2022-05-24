@@ -1,4 +1,4 @@
--- Packer bootstrap
+-- bootstrap
 local fn = vim.fn
 
 local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
@@ -23,7 +23,7 @@ let g:nvim_tree_show_icons = {
     \ }
 ]])
 
--- Packer plugins
+-- plugins
 require("packer").startup(function(use)
     use 'wbthomason/packer.nvim'
     use "nathom/filetype.nvim"
@@ -42,6 +42,7 @@ require("packer").startup(function(use)
             'saadparwaiz1/cmp_luasnip', 'lukas-reineke/cmp-under-comparator'
         }
     }
+    use {'onsails/lspkind.nvim'}
     -- fmt
     use 'sbdchd/neoformat'
     -- use 'lukas-reineke/lsp-format.nvim'
@@ -61,24 +62,55 @@ require("packer").startup(function(use)
     use 'ellisonleao/glow.nvim'
     use {'iamcco/markdown-preview.nvim', run = ':call mkdp#util#install()'}
     use 'dhruvasagar/vim-table-mode'
-    -- Firenvim
-    use {
-        'glacambre/firenvim',
-        run = function() vim.fn['firenvim#install'](0) end
-    }
-
     if Packer_bootstrap then require("packer").sync() end
 end)
 
--- Setup plugins
--- require("lsp-format").setup()
+-- init
+require('lspkind').init({
+    symbol_map = {
+    Text = " ",
+    Method = " ",
+    Function = " ",
+    Constructor = " ",
+    Field = " ",
+    Variable = " ",
+    Class = " ",
+    Interface = " ",
+    Module = " ",
+    Property = " ",
+    Unit = " ",
+    Value = " ",
+    Enum = " ",
+    Keyword = "  ",
+    Snippet = " ",
+    Color = " ",
+    File = " ",
+    Reference = " ",
+    Folder = " ",
+    EnumMember = " ",
+    Constant = " ",
+    Struct = " ",
+    Event = " ",
+    Operator = " ",
+    TypeParameter = " "
+    },
+})
+require("nvim-gps").setup({
+	icons = {
+		["class-name"] = '  ',      -- Classes and class-like objects
+		["function-name"] = '  ',   -- Functions
+		["method-name"] = '  ',     -- Methods (functions inside class-like objects)
+		["container-name"] = '  ',  -- Containers (example: lua tables)
+		["tag-name"] = '  '         -- Tags (example: html tags)
+	},
+})
 require("Comment").setup()
 require("nvim-tree").setup()
 require("colorizer").setup()
 require("telescope").setup()
-require("nvim-gps").setup()
 require("luasnip.loaders.from_vscode").load()
 require("numb").setup()
 require("stabilize").setup()
+-- require("lsp-format").setup()
 
 vim.g.mkdp_auto_close = 0
