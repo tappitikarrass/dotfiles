@@ -1,5 +1,5 @@
 export EDITOR="nvim"
-export TERMINAL="kitty"
+export TERMINAL="alacritty"
 export FM="nnn"
 export PYENV_ROOT="$HOME/.pyenv"
 export KEYTIMEOUT=1
@@ -31,3 +31,6 @@ export QT_QPA_PLATFORMTHEME=gtk3
 export QT_STYLE_OVERRIDE=kvantum
 # java
 export _JAVA_AWT_WM_NONREPARENTING=1
+export CHROME_EXECUTABLE=/bin/chromium
+# X11
+export WINIT_X11_SCALE_FACTOR=1
