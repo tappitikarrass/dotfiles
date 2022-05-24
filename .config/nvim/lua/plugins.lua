@@ -13,6 +13,7 @@ vim.cmd([[
   augroup end
 ]])
 
+
 vim.cmd([[
 let g:nvim_tree_show_icons = {
     \ 'git': 0,
@@ -41,6 +42,9 @@ require("packer").startup(function(use)
             'saadparwaiz1/cmp_luasnip', 'lukas-reineke/cmp-under-comparator'
         }
     }
+    -- fmt
+    use 'sbdchd/neoformat'
+    -- use 'lukas-reineke/lsp-format.nvim'
     -- Snippets
     use 'L3MON4D3/LuaSnip'
     use 'rafamadriz/friendly-snippets'
@@ -57,11 +61,17 @@ require("packer").startup(function(use)
     use 'ellisonleao/glow.nvim'
     use {'iamcco/markdown-preview.nvim', run = ':call mkdp#util#install()'}
     use 'dhruvasagar/vim-table-mode'
+    -- Firenvim
+    use {
+        'glacambre/firenvim',
+        run = function() vim.fn['firenvim#install'](0) end
+    }
 
     if Packer_bootstrap then require("packer").sync() end
 end)
 
 -- Setup plugins
+-- require("lsp-format").setup()
 require("Comment").setup()
 require("nvim-tree").setup()
 require("colorizer").setup()
