@@ -1,6 +1,3 @@
-require("options")
-require("plugins")
-require("autocomplete")
-require("treesitter")
-require("statusline")
-require("keybindings")
+require 'options'
+require 'plugins'
+require 'autocomplete'
