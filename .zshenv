@@ -34,3 +34,6 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 export CHROME_EXECUTABLE=/bin/chromium
 # X11
 export WINIT_X11_SCALE_FACTOR=1
+
+# lang
+export LANG="en_US.UTF-8"
