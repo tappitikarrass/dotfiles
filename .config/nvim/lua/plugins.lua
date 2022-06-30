@@ -1,4 +1,25 @@
-require 'packer_bootstrap'
+local fn = vim.fn
+local install_path = fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
+local packer_bootstrap = nil
+
+if fn.empty(fn.glob(install_path)) > 0 then
+  packer_bootstrap = fn.system {
+    'git',
+    'clone',
+    '--depth',
+    '1',
+    'https://github.com/wbthomason/packer.nvim',
+    install_path,
+  }
+end
+
+vim.cmd [[packadd packer.nvim]] -- packadd packer module
+
+require('packer').init {
+  max_jobs = 4,
+  auto_clean = true,
+  autoremove = true,
+}
 
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
@@ -11,7 +32,6 @@ require('packer').startup(function(use)
   use 'neovim/nvim-lspconfig'
   use 'jose-elias-alvarez/null-ls.nvim'
   use 'nvim-treesitter/nvim-treesitter'
-  use 'SmiteshP/nvim-gps'
   use 'onsails/lspkind.nvim'
   -- snippets
   use 'L3MON4D3/LuaSnip'
@@ -33,18 +53,19 @@ require('packer').startup(function(use)
   use 'lukas-reineke/indent-blankline.nvim'
   use 'norcalli/nvim-colorizer.lua'
   use 'nvim-telescope/telescope.nvim'
+  use 'kyazdani42/nvim-web-devicons'
   use 'kyazdani42/nvim-tree.lua'
   use { 'iamcco/markdown-preview.nvim', run = ':call mkdp#util#install()' }
   use 'dhruvasagar/vim-table-mode'
+  use 'SmiteshP/nvim-gps'
+  if packer_bootstrap then
+    require('packer').sync()
+  end
 end)
 
 require('nvim-treesitter.configs').setup {
   highlight = {
     enable = true,
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
     additional_vim_regex_highlighting = false,
   },
   indent = {
@@ -94,10 +115,72 @@ require('nvim-gps').setup {
 }
 
 require('Comment').setup()
-require('nvim-tree').setup()
 require('colorizer').setup()
 require('telescope').setup()
 require('numb').setup()
 require('stabilize').setup()
 
 require 'statusline'
+
+require('nvim-web-devicons').set_icon {
+  ['.gitignore'] = {
+    icon = '',
+  },
+  ['.xinitrc'] = {
+    icon = '',
+  },
+  ['.prettierrc'] = {
+    icon = '',
+  },
+}
+
+require('nvim-tree').setup {
+  open_on_setup = true,
+  open_on_setup_file = true,
+  sort_by = 'extension',
+  hijack_cursor = true,
+  filesystem_watchers = {
+    enable = true,
+  },
+  view = {
+    adaptive_size = true,
+  },
+  diagnostics = {
+    enable = true,
+    show_on_dirs = true,
+    icons = {
+      hint = '',
+      info = '',
+      warning = '',
+      error = '',
+    },
+  },
+  git = {
+    enable = true,
+  },
+  renderer = {
+    indent_markers = {
+      enable = true,
+    },
+    icons = {
+      git_placement = 'signcolumn',
+      show = {
+        folder = false,
+      },
+      glyphs = {
+        git = {
+          unstaged = '✗',
+          staged = '✓',
+          unmerged = '',
+          renamed = '➜',
+          untracked = '★',
+          deleted = '-',
+          ignored = '◌',
+        },
+      },
+    },
+  },
+}
+
+vim.cmd 'colorscheme base16-classic-dark'
+vim.cmd [[hi Normal guibg=NONE ctermbg=NONE]]

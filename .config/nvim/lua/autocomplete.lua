@@ -24,9 +24,9 @@ local sources = {
   -- docker
   null_ls.builtins.diagnostics.hadolint,
   -- c++
-  null_ls.builtins.formatting.clang_format.with {
-    disabled_filetypes = { 'cs' },
-  },
+  -- null_ls.builtins.formatting.clang_format.with {
+  --   disabled_filetypes = { 'cs' },
+  -- },
 }
 
 --[[
@@ -106,7 +106,7 @@ local on_attach = function(client)
     return false
   end
 
-  local servers = { 'sumneko_lua', 'tsserver' }
+  local servers = { 'sumneko_lua', 'tsserver', 'clangd' }
 
   if contains(servers, client.name) then
     client.server_capabilities.documentFormattingProvider = false
