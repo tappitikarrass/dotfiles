@@ -12,7 +12,7 @@ local sources = {
   -- js, html, css
   null_ls.builtins.code_actions.eslint_d,
   null_ls.builtins.diagnostics.eslint_d,
-  null_ls.builtins.formatting.prettier,
+  null_ls.builtins.formatting.prettierd,
   -- shell
   null_ls.builtins.diagnostics.zsh,
   null_ls.builtins.diagnostics.shellcheck,
@@ -24,9 +24,9 @@ local sources = {
   -- docker
   null_ls.builtins.diagnostics.hadolint,
   -- c++
-  null_ls.builtins.formatting.clang_format.with {
-    disabled_filetypes = { 'cs' },
-  },
+  -- null_ls.builtins.formatting.clang_format.with {
+  --   disabled_filetypes = { 'cs' },
+  -- },
 }
 
 --[[
@@ -90,13 +90,14 @@ cmp.setup {
   },
 }
 
+local navic = require 'nvim-navic'
 local caps = vim.lsp.protocol.make_client_capabilities()
 caps = require('cmp_nvim_lsp').update_capabilities(caps)
 
 --[[
-        disable lsp formatting that overlap with null-ls
+        disable lsp formatting that overlaps with null-ls
 --]]
-local on_attach = function(client)
+local on_attach = function(client, bufnr)
   local function contains(table, val)
     for i = 1, #table do
       if table[i] == val then
@@ -106,11 +107,12 @@ local on_attach = function(client)
     return false
   end
 
-  local servers = { 'sumneko_lua', 'tsserver' }
+  local servers = { 'sumneko_lua', 'tsserver', 'clangd' }
 
   if contains(servers, client.name) then
     client.server_capabilities.documentFormattingProvider = false
   end
+  navic.attach(client, bufnr)
 end
 
 --[[
@@ -120,11 +122,19 @@ end
 -- c++
 lspconfig.clangd.setup {
   capabilities = caps,
+  on_attach = on_attach,
+}
+
+-- python
+lspconfig.pyright.setup {
+  capabilities = caps,
+  on_attach = on_attach,
 }
 
 -- css
 lspconfig.cssls.setup {
   capabilities = caps,
+  on_attach = on_attach,
 }
 
 -- js
