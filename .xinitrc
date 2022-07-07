@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# export DRI_PRIME=1
 # xorg
 xrdb -merge ~/.Xresources &&
 	xset s off -dpms
