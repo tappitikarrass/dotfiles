@@ -14,7 +14,7 @@ xsetroot -cursor_name left_ptr
 # autostart
 ibus-daemon -drxR
 playerctld daemon &
-hsetroot -full ~/files/pix/jpegpng/kiminonawa-mitsuha.jpg
+setbg
 
 # wm
 dwm

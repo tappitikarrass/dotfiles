@@ -6,6 +6,16 @@ autoload -Uz compinit && compinit -d ~/.cache/zsh/zcompdump-$ZSH_VERSION
 zstyle ':completion:*' menu select
 zmodload zsh/complist
 
+# zsh parameter completion for the dotnet CLI
+_dotnet_zsh_complete()
+{
+  local completions=("$(dotnet complete "$words")")
+
+  reply=( "${(ps:\n:)completions}" )
+}
+
+compctl -K _dotnet_zsh_complete dotnet
+
 # options
 setopt globdots
 setopt autocd
@@ -23,9 +33,11 @@ prompt zen
 typeset -U PATH path
 path=("$HOME/.local/scripts"
     "$XDG_DATA_HOME/npm/bin"
+    "$XDG_DATA_HOME/pnpm"
     "$PYENV_ROOT/bin"
     "$path[@]"
     "$HOME/go/bin"
+    "/usr/share/dotnet/"
 )
 export PATH
 
@@ -36,7 +48,6 @@ alias "ls"="ls -lav --color=always --group-directories-first"
 alias "youtube-dl-auto"="youtube-dl -f bestvideo+bestaudio"
 alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 alias yarn='yarn --use-yarnrc "$XDG_CONFIG_HOME/yarn/config"'
-
 # plugins
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
