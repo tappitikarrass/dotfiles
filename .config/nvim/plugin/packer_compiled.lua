@@ -74,11 +74,6 @@ _G.packer_plugins = {
     path = "/home/gazobeton/.local/share/nvim/site/pack/packer/start/Comment.nvim",
     url = "https://github.com/numToStr/Comment.nvim"
   },
-  ["FTerm.nvim"] = {
-    loaded = true,
-    path = "/home/gazobeton/.local/share/nvim/site/pack/packer/start/FTerm.nvim",
-    url = "https://github.com/numToStr/FTerm.nvim"
-  },
   LuaSnip = {
     loaded = true,
     path = "/home/gazobeton/.local/share/nvim/site/pack/packer/start/LuaSnip",
@@ -109,6 +104,11 @@ _G.packer_plugins = {
     path = "/home/gazobeton/.local/share/nvim/site/pack/packer/start/cmp_luasnip",
     url = "https://github.com/saadparwaiz1/cmp_luasnip"
   },
+  ["dressing.nvim"] = {
+    loaded = true,
+    path = "/home/gazobeton/.local/share/nvim/site/pack/packer/start/dressing.nvim",
+    url = "https://github.com/stevearc/dressing.nvim"
+  },
   ["friendly-snippets"] = {
     loaded = true,
     path = "/home/gazobeton/.local/share/nvim/site/pack/packer/start/friendly-snippets",
@@ -129,10 +129,10 @@ _G.packer_plugins = {
     path = "/home/gazobeton/.local/share/nvim/site/pack/packer/start/lualine.nvim",
     url = "https://github.com/nvim-lualine/lualine.nvim"
   },
-  ["markdown-preview.nvim"] = {
+  ["nui.nvim"] = {
     loaded = true,
-    path = "/home/gazobeton/.local/share/nvim/site/pack/packer/start/markdown-preview.nvim",
-    url = "https://github.com/iamcco/markdown-preview.nvim"
+    path = "/home/gazobeton/.local/share/nvim/site/pack/packer/start/nui.nvim",
+    url = "https://github.com/MunifTanjim/nui.nvim"
   },
   ["null-ls.nvim"] = {
     loaded = true,
@@ -144,11 +144,6 @@ _G.packer_plugins = {
     path = "/home/gazobeton/.local/share/nvim/site/pack/packer/start/numb.nvim",
     url = "https://github.com/nacro90/numb.nvim"
   },
-  ["nvim-base16"] = {
-    loaded = true,
-    path = "/home/gazobeton/.local/share/nvim/site/pack/packer/start/nvim-base16",
-    url = "https://github.com/RRethy/nvim-base16"
-  },
   ["nvim-cmp"] = {
     loaded = true,
     path = "/home/gazobeton/.local/share/nvim/site/pack/packer/start/nvim-cmp",
@@ -159,6 +154,11 @@ _G.packer_plugins = {
     path = "/home/gazobeton/.local/share/nvim/site/pack/packer/start/nvim-colorizer.lua",
     url = "https://github.com/norcalli/nvim-colorizer.lua"
   },
+  ["nvim-lsp-installer"] = {
+    loaded = true,
+    path = "/home/gazobeton/.local/share/nvim/site/pack/packer/start/nvim-lsp-installer",
+    url = "https://github.com/williamboman/nvim-lsp-installer"
+  },
   ["nvim-lspconfig"] = {
     loaded = true,
     path = "/home/gazobeton/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
@@ -168,6 +168,16 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/gazobeton/.local/share/nvim/site/pack/packer/start/nvim-navic",
     url = "https://github.com/SmiteshP/nvim-navic"
+  },
+  ["nvim-notify"] = {
+    loaded = true,
+    path = "/home/gazobeton/.local/share/nvim/site/pack/packer/start/nvim-notify",
+    url = "https://github.com/rcarriga/nvim-notify"
+  },
+  ["nvim-solarized-lua"] = {
+    loaded = true,
+    path = "/home/gazobeton/.local/share/nvim/site/pack/packer/start/nvim-solarized-lua",
+    url = "https://github.com/ishan9299/nvim-solarized-lua"
   },
   ["nvim-tree.lua"] = {
     loaded = true,

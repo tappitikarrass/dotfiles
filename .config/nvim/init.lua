@@ -1,3 +1,5 @@
 require 'options'
 require 'plugins'
 require 'autocomplete'
+require 'folds'
+require 'keys'

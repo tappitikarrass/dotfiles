@@ -7,3 +7,4 @@ vim.o.expandtab = true
 vim.o.number = true
 vim.o.fcs = 'eob: '
 vim.o.termguicolors = true
+vim.o.mouse = 'a'

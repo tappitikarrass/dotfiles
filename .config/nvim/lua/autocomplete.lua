@@ -9,6 +9,8 @@ local lspkind = require 'lspkind'
 local sources = {
   -- lua
   null_ls.builtins.formatting.stylua,
+  -- json
+  null_ls.builtins.formatting.jq,
   -- js, html, css
   null_ls.builtins.code_actions.eslint_d,
   null_ls.builtins.diagnostics.eslint_d,
@@ -29,26 +31,7 @@ local sources = {
   -- },
 }
 
---[[
-        format on save
---]]
-
-local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
-null_ls.setup {
-  sources = sources,
-  on_attach = function(client, bufnr)
-    if client.supports_method 'textDocument/formatting' then
-      vim.api.nvim_clear_autocmds { group = augroup, buffer = bufnr }
-      vim.api.nvim_create_autocmd('BufWritePre', {
-        group = augroup,
-        buffer = bufnr,
-        callback = function()
-          vim.lsp.buf.format { bufnr = bufnr }
-        end,
-      })
-    end
-  end,
-}
+null_ls.setup { sources = sources }
 
 --[[
         nvim-cmp
@@ -65,13 +48,11 @@ cmp.setup {
     format = lspkind.cmp_format {
       mode = 'symbol_text',
       maxwidth = 50,
-
-      -- The function below will be called before any actual modifications from lspkind
-      -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
-      -- before = function(entry, vim_item)
-      --  return vim_item
-      -- end,
     },
+  },
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
   },
   snippet = {
     expand = function(args)
@@ -90,29 +71,54 @@ cmp.setup {
   },
 }
 
-local navic = require 'nvim-navic'
 local caps = vim.lsp.protocol.make_client_capabilities()
 caps = require('cmp_nvim_lsp').update_capabilities(caps)
 
 --[[
-        disable lsp formatting that overlaps with null-ls
+        null-ls format on save & override format
 --]]
-local on_attach = function(client, bufnr)
-  local function contains(table, val)
-    for i = 1, #table do
-      if table[i] == val then
-        return true
-      end
+local function contains(table, val)
+  for i = 1, #table do
+    if table[i] == val then
+      return true
     end
-    return false
+  end
+  return false
+end
+
+local lsp_formatting = function(bufnr)
+  vim.lsp.buf.format {
+    filter = function(client)
+      local servers = { 'sumneko_lua', 'tsserver', 'clangd' }
+      if contains(servers, client.name) then
+        return false
+      end
+      return true
+    end,
+    bufnr = bufnr,
+  }
+end
+
+local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
+
+local navic = require 'nvim-navic'
+local on_attach = function(client, bufnr)
+  if client.supports_method 'textDocument/formatting' then
+    vim.api.nvim_clear_autocmds { group = augroup, buffer = bufnr }
+    vim.api.nvim_create_autocmd('BufWritePre', {
+      group = augroup,
+      buffer = bufnr,
+      callback = function()
+        lsp_formatting(bufnr)
+      end,
+    })
   end
 
-  local servers = { 'sumneko_lua', 'tsserver', 'clangd' }
-
-  if contains(servers, client.name) then
-    client.server_capabilities.documentFormattingProvider = false
+  -- do not load nvim-navic if unsupported by server
+  local servers = { 'bashls' }
+  if not contains(servers, client.name) then
+    navic.attach(client, bufnr)
   end
-  navic.attach(client, bufnr)
 end
 
 --[[
@@ -133,6 +139,21 @@ lspconfig.pyright.setup {
 
 -- css
 lspconfig.cssls.setup {
+  capabilities = caps,
+  on_attach = on_attach,
+}
+
+-- c#
+local pid = vim.fn.getpid()
+local omnisharp_bin = '~/.local/share/nvim/lsp_servers/omnisharp/omnisharp/Omnisharp_bin'
+lspconfig.omnisharp.setup {
+  capabilities = caps,
+  on_attach = on_attach,
+  cmd = { omnisharp_bin, '--languageserver', '--hostPID', tostring(pid) },
+}
+
+-- bash
+lspconfig.bashls.setup {
   capabilities = caps,
   on_attach = on_attach,
 }
